@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Blog Post</title>
+    <link rel="icon" type="image/png" href="dist/images/logo.png">
+    <style>
+        body {
+            background: #0B1424;
+            color: #e0f1fc;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(2, 112, 215, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .blog-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .blog-description {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #a1c4e8;
+        }
+
+        .blog-content {
+            font-size: 1rem;
+            white-space: pre-line;
+            word-wrap: break-word;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #0270D7 0%, #0254a8 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, #0254a8 0%, #0270D7 100%);
+        }
+    </style>
+</head>
+<body>
+    <h1>View Blog Post</h1>
+    <div class="blog-container">
+        <div id="blogTitle" class="blog-title"></div>
+        <div id="blogDescription" class="blog-description"></div>
+        <div id="blogContent" class="blog-content"></div>
+        <div id="blogDate" class="blog-date"></div>
+        <a href="index.html" class="back-button">Back to Blog List</a>
+    </div>
+
+    <script>
+        // Extract blog ID from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const blogId = urlParams.get('id'); // Assuming URL is view_blog.html?id=<blog_id>
+
+        // Fetch blog data from the API
+        fetch(`http://localhost:3000/api/data/${blogId}`)
+            .then(response => response.json())
+            .then(blogData => {
+                if (blogData) {
+                    // Display the blog content dynamically
+                    document.getElementById('blogTitle').innerText = blogData.title;
+                    document.getElementById('blogDescription').innerText = blogData.description;
+                    document.getElementById('blogContent').innerText = blogData.content;
+                    // Convert the createdAt from a Date object to a string
+                    let date = new Date(blogData.createdAt).toLocaleString();
+                    document.getElementById('blogDate').innerHTML = date;
+                } else {
+                    alert("Blog not found");
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching blog:', error);
+                alert('An error occurred while fetching the blog.');
+            });
+    </script>
+</body>
+</html>

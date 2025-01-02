@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Neuroscience Resources</title>
+    <link rel="icon" type="image/png" href="dist/images/logo.png">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #e0f1fc;
+            font-size: 1.25em;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3.5rem;
+            border-radius: 35px;
+            box-shadow: 0 16px 48px rgba(2, 112, 215, 0.1);
+            width: 500px;
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(2, 112, 215, 0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #e0f1fc;
+            font-size: 2em;
+        }
+        .input-group {
+            margin-bottom: 1.75rem;
+        }
+        input {
+            width: 100%;
+            padding: 25px 35px;
+            margin-top: 0.875rem;
+            border: 3px solid rgba(2, 112, 215, 0.3);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 20px;
+        }
+        input:focus {
+            outline: none;
+            border-color: #0270D7;
+            box-shadow: 0 0 0 5px rgba(2, 112, 215, 0.2);
+        }
+        button {
+            width: 100%;
+            padding: 25px 50px;
+            background: linear-gradient(135deg, #0270D7 0%, #0254a8 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(2, 112, 215, 0.2);
+            background: linear-gradient(135deg, #0254a8 0%, #0270D7 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Admin Login</h1>
+        <div class="input-group">
+            <label for="adminCode">Admin Code</label>
+            <input type="password" id="adminCode" placeholder="Enter admin code">
+        </div>
+        <button onclick="checkLogin()">Login</button>
+    </div>
+
+    <script>
+        function redirectWithAuthentication() {
+            sessionStorage.setItem('isAuthenticated', 'true');
+            window.location.href = 'blog.html';
+        }
+        function checkLogin() {
+            const adminCode = document.getElementById('adminCode').value;
+            // Replace 'your_admin_code' with your actual admin code
+            if (adminCode === 'your_admin_code') {
+                redirectWithAuthentication()
+            } else {
+                alert('Invalid admin code. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>

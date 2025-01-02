@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post Creator</title>
+    <link rel="icon" type="image/png" href="dist/images/logo.png">
+    <style>
+        body {
+            background: #0B1424;
+            color: #e0f1fc;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        form {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(2, 112, 215, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        textarea {
+            font-family: 'Arial', sans-serif;
+        }
+        input[type="text"], textarea {
+            width: calc(100% - 40px);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(2, 112, 215, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #0270D7;
+            box-shadow: 0 0 0 3px rgba(2, 112, 215, 0.2);
+        }
+        
+        button {
+            display: block;
+            margin: 30px auto 0;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #0270D7 0%, #0254a8 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(2, 112, 215, 0.2);
+            background: linear-gradient(135deg, #0270D7 0%, #0254a8 100%);
+        }
+    </style>
+</head>
+<body>
+    <h1>Create New Blog Post</h1>
+    <form id="blogForm">
+        <div class="form-group">
+            <label for="title">Title: <span style="color: #d93025;">*</span></label>
+            <input type="text" id="title" name="title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description: <span style="color: #d93025;">*</span></label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="content">Blog Content: <span style="color: #d93025;">*</span></label>
+            <textarea id="content" name="content" required></textarea>
+        </div>
+
+        <button type="submit">Publish Blog</button>
+    </form>
+
+    <script>
+        document.getElementById('blogForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const content = document.getElementById('content').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title, description, content })
+                });
+
+                if (response.ok) {
+                    alert('Blog published successfully!');
+                    window.location.href = 'index.html'; // Redirect to homepage
+                } else {
+                    const errorData = await response.json();
+                    alert('Failed to publish blog: ' + errorData.message);
+                }
+            } catch (error) {
+                console.error('Error publishing blog:', error);
+                alert('An error occurred while publishing the blog.');
+            }
+        });
+    </script>
+</body>
+</html>

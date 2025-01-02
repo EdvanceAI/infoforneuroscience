@@ -81,6 +81,8 @@
             <input type="password" id="adminCode" placeholder="Enter admin code">
         </div>
         <button onclick="checkLogin()">Login</button>
+        <a href="index.html" style="position: absolute; top: 20px; left: 20px; color: #0270D7; text-decoration: none; font-size: 16px;">← Return to Home</a>
+
     </div>
 
     <script>
@@ -94,7 +96,7 @@
         }
         function checkLogin() {
             const adminCode = document.getElementById('adminCode').value;
-            if (adminCode === process.env.ADMIN_CODE) {
+            if (adminCode === 'admin_code') {
                 redirectWithAuthentication()
             } else {
                 alert('Invalid admin code. Please try again.');

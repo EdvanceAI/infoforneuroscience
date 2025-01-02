@@ -95,6 +95,10 @@
     </form>
 
     <script>
+        // Check authentication status
+        if (sessionStorage.getItem('isAuthenticated') !== 'true') {
+            window.location.href = 'login.html';
+        }
         document.getElementById('blogForm').addEventListener('submit', async function(event) {
             event.preventDefault();
             const title = document.getElementById('title').value;

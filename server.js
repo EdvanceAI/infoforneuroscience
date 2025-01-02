@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
 const app = express();
 // Enable static file serving from public directory
 app.use(express.static('public'));
@@ -15,8 +14,9 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
 });
+
 // Connect to MongoDB (replace with your MongoDB URI)
-mongoose.connect('mongodb+srv://anirudhsekar2008:Nwj1xGEaB6jRdqGf@cluster0.sw4sr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0').then(
+mongoose.connect(process.env.MONGODB_URI).then(
     () => console.log("Database connected")
 )
 
@@ -33,7 +33,7 @@ const Blog = mongoose.model('Blog', blogSchema, 'blogs');
 app.post('/api/data', async (req, res) => {
     try {
         const { title, description, content } = req.body;
-        console.log(req.body);
+
         const newBlog = new Blog({
             title: title,
             description: description,

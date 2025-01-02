@@ -84,14 +84,17 @@
     </div>
 
     <script>
+        // Load environment variables from .env.local file
+        
+        
+
         function redirectWithAuthentication() {
             sessionStorage.setItem('isAuthenticated', 'true');
             window.location.href = 'blog.html';
         }
         function checkLogin() {
             const adminCode = document.getElementById('adminCode').value;
-            // Replace 'your_admin_code' with your actual admin code
-            if (adminCode === 'your_admin_code') {
+            if (adminCode === process.env.ADMIN_CODE) {
                 redirectWithAuthentication()
             } else {
                 alert('Invalid admin code. Please try again.');

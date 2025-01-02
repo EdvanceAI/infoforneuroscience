@@ -70,8 +70,16 @@ app.get('/api/data/:id', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+app.post('/verify', (req, res) => {
+    const { code } = req.body;
+    if (code === process.env.ADMIN_CODE) {
+        res.json({ success: true });
+    } else {
+        res.status(401).json({ success: false });
+    }
+});
 
 // Start server
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+app.listen(process.env.PORT, () => {
+    console.log('Server is running on port ' + process.env.PORT);
 });

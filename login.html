@@ -78,7 +78,7 @@
         <h1>Admin Login</h1>
         <div class="input-group">
             <label for="adminCode">Admin Code</label>
-            <input type="password" id="adminCode" placeholder="Enter admin code">
+            <input type="password" id="adminCode" placeholder="Enter admin code" onkeypress="if(event.key === 'Enter') checkLogin()">
         </div>
         <button onclick="checkLogin()">Login</button>
         <a href="index.html" style="position: absolute; top: 20px; left: 20px; color: #0270D7; text-decoration: none; font-size: 16px;">← Return to Home</a>
@@ -86,20 +86,33 @@
     </div>
 
     <script>
-        // Load environment variables from .env.local file
         
         
+
 
         function redirectWithAuthentication() {
             sessionStorage.setItem('isAuthenticated', 'true');
             window.location.href = 'blog.html';
         }
-        function checkLogin() {
+        async function checkLogin() {
             const adminCode = document.getElementById('adminCode').value;
-            if (adminCode === 'admin_code') {
-                redirectWithAuthentication()
-            } else {
-                alert('Invalid admin code. Please try again.');
+            try {
+                const response = await fetch('http://localhost:3000/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ code: adminCode })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    redirectWithAuthentication();
+                } else {
+                    alert('Invalid admin code. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error during verification:', error);
+                alert('An error occurred during verification. Please try again.');
             }
         }
     </script>

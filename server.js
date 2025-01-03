@@ -78,7 +78,13 @@ app.post('/verify', (req, res) => {
         res.status(401).json({ success: false });
     }
 });
-
+app.post('/api/gemini-key', (req, res) => {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        return res.status(500).json({ message: 'API key not configured' });
+    }
+    res.json({ key: apiKey });
+});
 // Start server
 app.listen(process.env.PORT, () => {
     console.log('Server is running on port ' + process.env.PORT);

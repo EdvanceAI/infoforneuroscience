@@ -279,10 +279,27 @@
                                     }
                                 });
 
-                            const GEMINI_API_KEY = 'AIzaSyCJHHtLmEC1mynL4fVOC9O2QaausTjpKzs'; // Replace with your actual API key from Google AI Studio
+                             // Replace with your actual API key from Google AI Studio
+                            let GEMINI_API_KEY = '';
+                            async function fetchGeminiKey() {
+                                try {
+                                    const response = await fetch('http://localhost:3000/api/gemini-key', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                   });
+                                    const data = await response.json();
+                                    GEMINI_API_KEY = data.key;
+                                } catch (error) {
+                                    console.error('Error fetching Gemini API key:', error);
+                                }
+                            }
+                            fetchGeminiKey();
 
                             async function getGeminiResponse(userMessage) {
                                 try {
+
                                     const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + GEMINI_API_KEY, {
                                         method: 'POST',
                                         headers: {
@@ -297,14 +314,20 @@
                                         })
                                     });
 
-                                    const data = await response.json();
-                                    if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts) {
-                                        throw new Error('Invalid response structure from API');
+                                    if (!response.ok) {
+                                        throw new Error(`HTTP error! status: ${response.status}`);
                                     }
-                                    return data.candidates[0].content.parts[0].text;
+                                    
+                                    const data = await response.json();
+                                    if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                                        return data.candidates[0].content.parts[0].text;
+                                    } else {
+                                        console.error('Unexpected API response structure:', data);
+                                        return "I apologize, but I received an unexpected response format. Please try again.";
+                                    }
                                 } catch (error) {
                                     console.error('Error:', error);
-                                    return "Sorry, I'm having trouble connecting to the AI service right now.";
+                                    return `Sorry, I encountered an error: ${error.message}. Please try again later.`;
                                 }
                             }
                             function clearInput() {

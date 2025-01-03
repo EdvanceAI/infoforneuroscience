@@ -82,7 +82,7 @@
         const blogId = urlParams.get('id'); // Assuming URL is view_blog.html?id=<blog_id>
 
         // Fetch blog data from the API
-        fetch(`http://localhost:3000/api/data/${blogId}`)
+        fetch(`https://ifn-server.vercel.app/api/data/${blogId}`)
             .then(response => response.json())
             .then(blogData => {
                 if (blogData) {

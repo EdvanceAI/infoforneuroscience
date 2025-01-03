@@ -116,6 +116,10 @@
                     if (!response.ok) throw new Error('Failed to fetch blogs');
                     const blogs = await response.json();
                     const container = document.getElementById('blogs-container');
+                    // Sort blogs by date in descending order
+                    blogs.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    // Take up to 3 blogs if available
+                    blogs = blogs.slice(0, Math.min(3, blogs.length));
                     container.innerHTML = blogs.map(blog => `
                         <div style="border: 1px solid #0270D7; border-radius: 10px; padding: 15px; width: 90%; background: rgba(255, 255, 255, 0.05);">
                             <h3 style="color: white;">${blog.title}</h3>

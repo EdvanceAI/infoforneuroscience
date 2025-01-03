@@ -114,7 +114,8 @@
                 try {
                     const response = await fetch('https://ifn-server.vercel.app/api/data');
                     if (!response.ok) throw new Error('Failed to fetch blogs');
-                    const blogs = await response.json();
+                    
+                    let blogs = await response.json();
                     const container = document.getElementById('blogs-container');
                     // Sort blogs by date in descending order
                     blogs.sort((a, b) => new Date(b.date) - new Date(a.date));

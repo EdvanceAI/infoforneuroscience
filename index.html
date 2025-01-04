@@ -61,9 +61,46 @@
                     });
                 });
             });
-            
+            toggleMobileMenu = () => {
+                const menu = document.querySelector('.mobile-menu');
+                menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+            };
         </script>
         <div class="navbar-menu">
+            <div class="mobile-menu-button" onclick="toggleMobileMenu()" style="display: none; cursor: pointer;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                </svg>
+            </div>
+            <div class="mobile-menu" style="display: none; position: fixed; top: 0; right: 0; background: #121212; padding: 20px; height: 100vh; width: 250px; z-index: 1000;">
+                <div style="text-align: right; margin-bottom: 20px;">
+                    <span onclick="toggleMobileMenu()" style="cursor: pointer; color: white; font-size: 24px;">&times;</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <a href="#" style="color: white; text-decoration: none;">Home</a>
+                    <a href="#" style="color: white; text-decoration: none;" id="mobile_view_blog">Blogs</a>
+                    <a href="#" style="color: white; text-decoration: none;">Podcast</a>
+                    <a href="#" style="color: white; text-decoration: none;">Contribute</a>
+                    <a href="#" style="color: white; text-decoration: none;">Chat with Us</a>
+                    <a href="./blog.html" style="color: white; text-decoration: none;" id="mobile_blog">Write a Blog</a>
+                </div>
+            </div>
+            <style>
+                @media (max-width: 768px) {
+                    .navbar-menu > a {
+                        display: none;
+                    }
+                    .mobile-menu-button {
+                        display: block !important;
+                    }
+                }
+            </style>
+            <script>
+                function toggleMobileMenu() {
+                    const menu = document.querySelector('.mobile-menu');
+                    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+                }
+            </script>
             <a href="#" style="text-decoration: none; margin-left: 2rem;">Home</a>
             <a href="#" style="text-decoration: none; margin-left: 2rem;" id="view_blog">Blogs</a>
             <a href="#" style="text-decoration: none; margin-left: 2rem;">Podcast</a>
